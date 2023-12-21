@@ -2,10 +2,10 @@ import numpy as np
 import keras
 from keras.layers import Embedding
 from keras.layers import *
+import tensorflow as tf
 from keras import backend as K
 from keras.optimizers import *
 from keras.models import Model
-from keras.utils import multi_gpu_model
 
 from Hypers import *
 
@@ -357,11 +357,14 @@ def create_model(title_word_embedding_matrix,content_word_embedding_matrix,entit
     
     user_encoder = Model(clicked_title_input,user_vec)
 
-    model = multi_gpu_model(model,gpus=2)
-    model.compile(loss=['categorical_crossentropy'],
-                    optimizer=Adam(lr=0.0001), 
-                    #optimizer= SGD(lr=0.01),
-                    metrics=['acc'])
+    # switch to use mirror strategy instead of using multi_gpu_model
+    strategy = tf.distribute.MirroredStrategy()
+    with strategy.scope():
+        model = Model(model,gpus=2)
+        model.compile(loss=['categorical_crossentropy'],
+                        optimizer=Adam(lr=0.0001), 
+                        #optimizer= SGD(lr=0.01),
+                        metrics=['acc'])
 
     return model,news_encoder,user_encoder
 

@@ -1,3 +1,5 @@
 _venv_/
 _data_/
 _embeddings_/
+__pycache__/
+_nltk_data_/

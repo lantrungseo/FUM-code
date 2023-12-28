@@ -62,7 +62,7 @@ def load_matrix(embedding_path,word_dict):
                 tp = [float(x) for x in l[1:]]
                 embedding_matrix[index]=np.array(tp)
                 have_word.append(word)
-    return embedding_matrix,have_word
+    return embedding_matrix
 
 def load_entity_embedding(data_root_path,entity_dict):
     entity_emb = np.zeros((len(entity_dict)+1,100))

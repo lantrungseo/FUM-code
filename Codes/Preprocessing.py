@@ -26,11 +26,12 @@ def read_news(data_root_path):
     subcategory_dict={}
     subcategory_index = 1
 
-    for path in ['MINDlarge_train','MINDlarge_test']:
+    for path in ['MINDlarge_train','MINDlarge_test', 'MINDlarge_dev', 'MINDsmall_train', 'MINDsmall_dev']:
+        print(path)
 
         with open(os.path.join(data_root_path,path,'news.tsv')) as f:
             lines = f.readlines()
-
+        
         for line in lines:
             splited = line.strip('\n').split('\t')
             doc_id,vert,subvert,title,abstract,url,entity,_= splited
@@ -82,11 +83,11 @@ def read_news(data_root_path):
 
 def get_doc_input(news,news_index,category_dict,subcategory_dict,word_dict,content_dict,entity_dict):
     news_num=len(news)+1
-    news_title=np.zeros((news_num,MAX_TITLE),dtype='int32')
-    news_vert=np.zeros((news_num,),dtype='int32')
-    news_subvert=np.zeros((news_num,),dtype='int32')
-    news_entity = np.zeros((news_num,MAX_ENTITY),dtype='int32')
-    news_content = np.zeros((news_num,MAX_CONTENT),dtype='int32')
+    news_title=np.zeros((news_num,MAX_TITLE),dtype='int32') # (news_length, MAX_TITLE)
+    news_vert=np.zeros((news_num,),dtype='int32') # (news_length, 1)
+    news_subvert=np.zeros((news_num,),dtype='int32') # (news_length, 1)
+    news_entity = np.zeros((news_num,MAX_ENTITY),dtype='int32') # (news_length, MAX_ENTITY)
+    news_content = np.zeros((news_num,MAX_CONTENT),dtype='int32') # (news_length, MAX_CONTENT)
     
     for key in news:    
         vert,subvert,title,entity,content = news[key]
@@ -101,7 +102,7 @@ def get_doc_input(news,news_index,category_dict,subcategory_dict,word_dict,conte
         for entity_id in range(min(MAX_ENTITY,len(entity))):
             news_entity[doc_index,entity_id]=entity_dict[entity[entity_id]]
 
-        for content_id in range(min(MAX_ENTITY,len(content))):
+        for content_id in range(min(MAX_CONTENT,len(content))):
             if not content[content_id] in content_dict:
                 continue
             news_content[doc_index,content_id]=content_dict[content[content_id]]

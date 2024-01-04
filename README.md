@@ -1,26 +1,20 @@
-# FUM
-Codes of FUM in SIGIR 2022
-
 ## Paper
 
 Attention pooling: https://arxiv.org/pdf/1602.03609.pdf
-FUM: https://arxiv.org/pdf/2204.04727.pdf
 Fastformer: https://arxiv.org/pdf/2108.09084.pdf
 
 ## How to run 
 
-### MacOS
-- In the project directory, create
-  - _data_ folder
-  - _embeddings_ folder
-- Run 
-```bash
-python3 -m venv _venv_
-source _venv_/bin/activate
-```
-- Install requirements
-```bash
-pip install -r requirements.txt
-```
-- Download MIND dataset to _data_ folder
-- Download GloVe embeddings to _embeddings_ folder
+### Google Colab
+
+In the Google Drive root folder
+
+- Create /Projects/MIND-FUM/ folder
+- Create /Dataset/MIND/_data_ folder
+- Create /Dataset/MIND/_embeddings_ folder
+- Download and extract MIND dataset to /Dataset/MIND/_data_ folder (https://msnews.github.io/)
+- Download GloVe embeddings (840B.300d)  to /Dataset/MIND/_embeddings_ folder (https://nlp.stanford.edu/projects/glove/)
+- Upload `Generator.py, Hypers.py, Models.py, Utils.py, Preprocessing.py` to the `/Projects/MIND-FUM/`
+- Run the `FUM-train.ipynb` notebook to train the model in Google Colab
+- Run the `FUM_code_eval.ipynb` notebook to evaluate the model in Google Colab
+- Go to Google Drive and use the `/Dataset/MIND/prediction.txt` to submit to the competition
